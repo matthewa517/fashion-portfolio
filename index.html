@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Fashion Portfolio</title>
+    <style>
+        body {
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-color: #B2BBA0;
+            margin: 0;
+            height: 100vh;
+        }
+
+        h1 {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-weight: 250;
+            letter-spacing: 4px; 
+            font-size: 12rem;
+            text-transform: uppercase;
+            text-align: center;
+            color: #4B5B4E;
+            margin: 0;
+            padding-top: 80px;
+        }
+        
+        h2 {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            letter-spacing: 2px;
+            font-weight: 400;
+            color: #4B5B4E; 
+            font-size: 2rem;
+            text-align: center; 
+        }
+    
+        h3 {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            letter-spacing: 2px;
+            font-weight: 350;
+            color: beige;
+            font-size: 1.5rem;
+            text-align: center; 
+        }
+        
+        p {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            letter-spacing: 1.5px;
+            color: #4B5B4E; 
+            font-size: 1rem;
+            text-align: center;
+        }
+        
+        .tabs-container {
+            display: flex;            
+            justify-content: center;  
+            border-bottom: 1px solid #cccccc; 
+            max-width: 600px;
+            margin: 0 auto;           
+        }
+
+        .tab {
+            background: none;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            color: beige;
+            font-weight: bold;
+        }
+
+        .tab.active {
+            color: #111111;
+            border-bottom: 3px solid #111111; 
+        }
+
+        .content-area {
+            text-align: center;
+            padding: 40px;
+            font-size: 1.2rem;
+            color: #333333;
+            display: none; 
+        }   
+
+        .outfit-row {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            justify-content: flex-start;
+            gap: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+            overflow-x: auto;
+            padding-bottom: 20px;
+            scroll-snap-type: x mandatory;
+        }
+
+        .outfit-card {
+            flex-shrink: 0;
+            scroll-snap-align: start;
+            width: 225px;
+            text-align: center;
+        }
+
+        .outfit-card h2 {
+            font-size: 1.2rem;
+            margin-top: 10px;
+            color: beige;
+        }
+        
+        .content-area img {
+            width: 100%;         
+            max-width: 225px;    
+            height: 300px;       
+            object-fit: cover;
+            border-radius: 10px;  
+            display: block;
+        }
+
+        .outfit-row::-webkit-scrollbar {
+            height: 8px;
+        }
+        .outfit-row::-webkit-scrollbar-thumb {
+            background: beige;
+            border-radius: 10px;
+        }
+        .outfit-row::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .inspiration-list {
+            max-height: 400px; /* Bumped up slightly so nested lists fit nicely */
+            overflow-y: auto;
+            max-width: 500px;
+            margin: 20px auto;
+            padding-left: 35px;
+            text-align: left;
+            list-style-type: "☆ "; 
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 1.4rem;
+            color: #4B5B4E;            
+        }
+
+        .inspiration-list li {
+            margin-bottom: 15px;
+        }
+
+        .inspiration-list::-webkit-scrollbar {
+            width: 6px;
+        }
+        .inspiration-list::-webkit-scrollbar-thumb {
+            background: #4B5B4E;
+            border-radius: 10px;
+        }
+        .inspiration-list::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        /* SCROLL BOX ENGINE STYLES */
+        .single-scrollbox {
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+            max-width: 500px;
+            margin: 20px auto;
+            overflow-x: auto;
+            padding-bottom: 15px;
+        }
+
+        .scroll-text-card {
+            flex-shrink: 0;
+            width: 260px;
+            background-color: #4B5B4E;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: left;
+        }
+
+        .scroll-text-card h4 {
+            color: beige;
+            margin-top: 0;
+            text-transform: uppercase;
+            font-family: system-ui, sans-serif;
+        }
+
+        .scroll-text-card p {
+            color: #e2e8f0;
+            text-align: left;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .scroll-photo-card {
+            flex-shrink: 0;
+            width: 225px;
+        }
+
+        .scroll-photo-card img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .single-scrollbox::-webkit-scrollbar {
+            height: 6px;
+        }
+        .single-scrollbox::-webkit-scrollbar-thumb {
+            background: beige;
+            border-radius: 10px;
+        }
+        .single-scrollbox::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        
+        #About {
+            display: block; 
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Welcome</h1>
+    <h3>On this webpage I intended to further practice my intermediate web development skills in creating a fashion portfolio ♡ </h3>
+    
+    <div class="tabs-container"> 
+        <button class="tab active" onclick="switchTab(event, 'About')">About🪞</button>
+        <button class="tab" onclick="switchTab(event, 'Outfits')">Outfits 👠   </button>
+        <button class="tab" onclick="switchTab(event, 'StyleGuide')">Style Guide 🛍️</button>
+        <button class="tab" onclick="switchTab(event, 'Inspirations')">Inspirations🪩</button>
+    </div>
+
+    <div id="About" class="content-area">
+        <h2> ☆ About Me ☆ </h2>
+        <h3> What's your name?</h3>
+        <p> Matthew (Although everyone calls me Matty) </p>
+        <br>
+        <h3> How old are you? </h3>
+        <p> 21 years young 💚 </p>
+        <br>
+		<h3> Where are you based? </h3>
+		<p> Lanham, MD </p>
+		</br>
+        <h3> Why web development? </h3>
+        <p>  I like the whole idea of turning my creative thoughts into something real, like in actual practice. I never really had the right platform, or medium to show what I was thinking, and it felt kinda stuck. Code finally gives me a way to build it from scratch.</p>
+        <br> 
+        <h3> Why Fashion? </h3>
+        <p> ✰ Fashion allows me to physically express how I feel everyday without verbally having to say anything. </p>
+        <p> ✰ It's also so fun to experiment with different textures, silhouettes, patterns, & colors. </p>     
+        <p> ✰ Not to sound cocky, but I see a vision in everything. This makes styling feel like a fun mission to complete. </p>
+		</br>
+		
+    </div>
+    
+	
+    <div id="Outfits" class="content-area">
+		 <p> * All are real outfits worn by me :) * </p>
+		 <p> *NOTE: This section is still somewhat incomplete* </p>
+		 
+        <h2> ☆ Cute & Casual ☆  </h2>
+        <br>
+        
+        <div class="outfit-row">	
+			     
+            <div class="outfit-card">
+                <img src="BohoChic.jpg" alt="Boho Chic">
+                <h2>"Boho Chic"</h2>
+            </div>
+
+            <div class="outfit-card">
+                <img src="GlitterGutter.jpg" alt="Glitter Gutter">
+                <h2>"Glitter Gutter"</h2>
+            </div>
+			
+			<div class="outfit-card">
+				<img src = "ElderEmo2.jpg" alt = "Elder Emo">
+				<h2> "Elder Emo" </h2>
+			</div>
+			
+			<div class = "outfit-card">
+				<img src = "SleazeRevival.jpg" alt = "Sleaze">
+				<h2> "Indie Sleaze Revivalist" </h2>
+			</div>
+			
+			<div class = "outfit-card">
+				<img src = "CamoCouture.jpg" alt = "Camo Couture">
+				<h2> "Camo Couture" </h2>
+			</div>
+			
+			<div class ="outfit-card">
+				<img src = "ConcreteRebel.png" alt = "Concrete Rebel">
+				<h2> "Concrete Rebel" </h2>
+			</div>
+			
+            <div class="outfit-card">
+                <img src="GroundedGrunge.jpg" alt="Grounded Grunge">
+                <h2>"Grounded Grunge"</h2>
+            </div>
+			
+				<div class = "outfit-card">
+				<img src = "Downtown2004.jpg" alt = "Downtown2004">
+				<h2> "Downtown 2004"</h2>
+			</div>
+			            
+            <div class="outfit-card">
+                <img src="Skins.jpg" alt="Skins">
+                <h2>"Skins"</h2>
+            </div>
+			
+			<div class = "outfit-card">
+				<img src = "DustAndDenim.jpg" alt = "denim">
+				<h2> "Dust & Denim </h2>
+			</div>
+            
+            <div class="outfit-card">
+                <img src="StaleStripes.jpg" alt="Stale Stripes">
+                <h2>"Stale Stripes"</h2>
+            </div>
+			
+			<div class = "outfit-card">
+				<img src = "70sNightshade.jpg" alt = "70s">
+				<h2> "70s Nightshade" </h2>
+			</div>
+            
+            <div class="outfit-card">
+                <img src="BackstagePass.jpg" alt="Backstage Pass">
+                <h2>"Backstage Pass"</h2>
+            </div>     
+			
+			
+			</div>
+        <br><br>
+        <h2> ☆ Going out ☆ </h2>
+		
+		<div class = "outfit-row">
+		
+			<div class = "outfit-card">
+				<img src = "Club09.jpg" alt = "Club2009">
+				<h2> "Club 09" <h2>
+			</div>
+			
+			<div class = "outfit-card">
+				<img src = "DarkAcademia.jpg" alt = "academiafit">
+				<h2> "Dark Academia" </h2>
+			</div>
+			
+			<div class = "outfit-card">
+				<img src = "Tumblr14.jpg" alt = "tumblrfit">
+				<h2> "Tumblr '14" </h2>
+			</div>
+		</div>
+			
+		<br><br>
+		
+        <h2> ☆ Personal Archive ☆ </h2>
+		<div class = "outfit-row">
+
+
+		<div class = "outfit-card">
+		<img src = "Salsa4ever.jpg" alt = "Salsa">
+		<h2> "Salsa 4 Ever" </h2>
+		</div>
+			
+				<div class = "outfit-card">
+		<img src = "StuddedGlamour.jpg" alt = "StuddedGlamour">
+		<h2> "Studded Glamour" </h2>
+		</div>
+		
+		<div class = "outfit-card">
+		<img src = "PrettyNPunk.jpg" alt = "PrettyNPunk">
+		<h2> "Pretty 'N Punk" </h2>
+		</div>
+			
+		<div class = "outfit-card">
+		<img src = "WinterFashionShow.jpg" alt = "WinterFashionShow">
+		<h2> "Winter Fashion Show" </h2>
+		</div>
+		
+		<div class = "outfit-card">
+		<img src ="DenimDiva.jpg" alt = "DenimDiva">
+		<h2> "Denim Diva" </h2>
+		</div>
+		
+		<div class = "outfit-card">
+		<img src = "AltMobBoss.jpg" alt = "mobboss">
+		<h2> Mob Boss </h2>
+		</div>
+		
+		<div class = "outfit-card">
+		<img src = "HollisterEmo.jpg" alt = "HollisterEmo">
+		<h2> "Hollister Emo" </h2>
+		</div>
+		
+		<div class = "outfit-card">
+		<img src = "MattyLavigne.jpg" alt = "MattyLavigne">
+		<h2> "Matty Lavigne" </h2>
+		</div>
+		
+		<div class = "outfit-card">
+		<img src = "DenimDream.jpg" alt = "DenimDream">
+		<h2> "Denim Dream" </h2>
+		</div>
+		
+		<div class = "outfit-card">
+		<img src = "VampStudent.jpg" alt = "VampStudent">
+		<h2> "Vamp Student" </h2>
+		</div>	
+		
+		<div class = "outfit-card">
+		<img src = "AltPrivSchool.jpg" alt = "Altpriv">
+		<h2> "Alt Priv School" </h2>
+		</div>	
+	</div>
+	</div>
+		
+		
+  
+    <div id="StyleGuide" class="content-area">
+        <h2> ☆ Mattys Style Guide ☆ </h2>
+        <br />
+        <p> As stated previously in the "About Me" tab, styling feels like a fun mission for me to complete.
+         I would definitely say my style has elevated over the years, now prioritizing curated layering, and intentional silhouettes.</p> 
+         
+        <br />
+        
+        <h3> The "Sleazy" Influence </h3>
+        <p> As my personal style continues to evolve, I realize how much my tastes have matured, but maintained that raw, unapologetic edge.</p>
+        <p> I've become very into the "Sprezzatura" vibe, aka "Calculated Effortlessness" </p>
+        
+        <br />
+        
+        <div class="single-scrollbox">
+            <div class="scroll-text-card">
+                <h4> Heavy Layering </h4>
+                <p> The key rule for me  is when in doubt, throw on a cardigan, jacket, vest, etc.
+                    This enhances the relaxed look, and overall silhouette of the outfit. </p>
+                <p style="color: beige; font-weight: bold;"> Rule: If you feel something is missing, LAYER! </p>
+            </div>
+            <div class="scroll-photo-card">
+                <img src="JMag2.jpg" alt="JMag2">
+            </div>
+        </div>
+        
+        <div class="single-scrollbox">
+            <div class="scroll-text-card">
+                <h4> Industrial accents </h4>
+                <p> I've been super into statement pieces; Long necklaces, chunky bracelets, macrame Belts, list goes on. Many people tend to forget how much accessories elevate your look.</p>
+                <p style="color: beige; font-weight: bold;"> Rule: Don't EVER be afraid to "over-accessorize" </p>
+            </div>
+            <div class="scroll-photo-card">
+                <img src="Necklaces.jpg" alt="Necklaces">
+            </div>
+        </div>
+
+        <div class="single-scrollbox">
+            <div class="scroll-text-card">
+                <h4> Shoe Choice</h4>
+                <p> I've started to deviate away from always wearing sneakers (lowkey because my jeans are too long)
+                but also because I've found that heels, wedges, boots, just look more intentional, and resonates more with the person I'm becoming. </p>
+                <p style="color: beige; font-weight: bold;"> Rule: A casual heel NEVER hurts! </p>
+            </div>
+            <div class="scroll-photo-card">
+                <img src="boots.jpg" alt="boots">
+            </div>
+        </div>
+    
+        <div class="single-scrollbox">
+            <div class="scroll-text-card">
+                <h4> Compliment instead of Match </h4>
+                <p> When all you do is match, your outfits start feeling repetitive. Complimenting adds tension. Pairing pieces that speak the same language without saying the exact words.  </p>
+                <p style="color: beige; font-weight: bold;"> Rule: Style the accents, instead of the base </p>   
+            </div>
+            <div class="scroll-photo-card">
+                <img src="complimentary.jpg" alt="complimentary">
+            </div>
+        </div>
+		
+		<div class = "single-scrollbox">
+			<div class = "scroll-text-card">
+			<h4> Shop Secondhand </h4>
+			<p> Shopping secondhand isn’t only eco-friendly; it’s like a real jackpot for your wardrobe, and your wallet too. True vintage clothes usually come with sturdy fabrics, strong stitching, and those deep denim shades that today’s fast fashion can’t really mimic. And all of that for way less than retail prices.
+			</p>
+			<p style = "color: beige; font-weight: bold;"> Rule: Shop for QUALITY! </p>
+		</div>
+			<div class = "scroll-photo-card">
+				<img src = "Thrift.jpg" alt = "flea market photo">
+			</div>
+		</div>
+        
+        <div class="single-scrollbox">
+            <div class="scroll-text-card">
+                <h4> Dress for yourself </h4>
+                <p> Most importantly, dress how YOU see fit. Stop caring about unwanted opinions, they aren't serving you anything but misery. Having an authentic style should come with confidence! </p>
+                <p style="color: beige; font-weight: bold;"> Rule: Stop caring </p>
+            </div>
+            <div class="scroll-photo-card">
+                <img src="Authentic.jpg" alt="casual">
+            </div>
+        </div>
+    </div>   
+
+    <div id="Inspirations" class="content-area">
+        <h3 style="color:#4B5B4E;"> I've had numerous Inspirations, some of which include, but DEFINITELY not limited to: </h3>
+        <ul class="inspiration-list">
+            <li style="letter-spacing: 2.5px; font-size: 1.7rem;"> 00's Soap Opera Wardrobes
+                <ul> 
+                    <li style="color: beige; font-style: italic;"> Sex & The City </li>
+                    <li style="color: beige; font-style: italic;"> Degrassi TNG </li>
+                    <li style="color: beige; font-style: italic;"> Noahs Arc </li>    
+                    <li style="color: beige; font-style: italic;"> Skins UK </li>
+                </ul>  
+            </li>
+                
+            <br>
+                
+            <li style="letter-spacing: 2.5px; font-size: 1.7rem;"> Reality TV 
+                <ul> 
+                    <li style="color: beige; font-style: italic;"> Jersey Shore </li>
+                    <li style="color: beige; font-style: italic;"> The Simple Life </li>
+                    <li style="color: beige; font-style: italic;"> Flavor of Love (Ms. Pollard) </li>
+                    <li style="color: beige; font-style: italic;"> America's Next Top Model </li>
+                </ul>
+            </li>
+            
+            <br>
+            
+            <li style="letter-spacing: 2.5px; font-size: 1.7rem;"> Magazines & Fashion Content
+                <ul>
+                    <li style="color: beige; font-style: italic;"> Dsquared Runway Shows </li>
+                    <li style="color: beige; font-style: italic;"> Met Gala </li>
+                    <li style="color: beige; font-style: italic;"> Cobrasnake Archive </li>
+                    <li style="color: beige; font-style: italic;"> Japanese Fashion Magz (Men's Egg, Men's Knuckle) </li>
+                    <li style="color: beige; font-style: italic;"> My Style Pinterest Boards </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <script>
+        function switchTab(event, sectionId) {
+            let contents = document.querySelectorAll('.content-area');
+            contents.forEach(content => content.style.display = 'none');
+
+            let tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+
+            let targetSection = document.getElementById(sectionId);
+            targetSection.style.display = 'block';
+            
+            event.currentTarget.classList.add('active');
+        }
+    </script>
+
+</body>
+</html>
